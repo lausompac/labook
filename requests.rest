@@ -1,2 +1,30 @@
 ### Endpoint test
 GET http://localhost:3003/ping
+
+### Signup 
+POST http://localhost:3003/users/signup
+Content-Type: application/json
+
+{
+    "name": "Maria Bethânia",
+    "email": "bethania@gmail.com",
+    "password": "abelharainha13"
+}
+
+### Login
+POST http://localhost:3003/users/login
+Content-Type: application/json
+
+{
+    "email": "bethania@gmail.com",
+    "password": "abelharainha13"
+}
+
+### Create new post
+POST http://localhost:3003/posts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ0YzkyYWZiLWQzMWItNDQ0OC1iOTk0LTljYzMxNWUyOGUyMiIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjAxNjMzODAsImV4cCI6MTY2MDI0OTc4MH0.dsAffsZoE7Xa24MuyiWDPx2niBKWdHHjR54n8pcFZ2U
+Content-Type: application/json
+
+{
+    "text": "Nova turnê em breve!"
+}

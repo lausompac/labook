@@ -39,3 +39,8 @@ export class Post {
         this.likes = newLikes;
     }
 }
+
+export interface IPostInputDTO {
+    token: string;
+    text: string;
+}
