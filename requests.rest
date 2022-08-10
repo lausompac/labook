@@ -1,0 +1,2 @@
+### Endpoint test
+GET http://localhost:3003/ping
