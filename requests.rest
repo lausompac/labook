@@ -6,9 +6,9 @@ POST http://localhost:3003/users/signup
 Content-Type: application/json
 
 {
-    "name": "Maria Bethânia",
-    "email": "bethania@gmail.com",
-    "password": "abelharainha13"
+    "name": "Gal Costa",
+    "email": "galcosta@gmail.com",
+    "password": "babybabyuh"
 }
 
 ### Login
@@ -28,3 +28,16 @@ Content-Type: application/json
 {
     "text": "Nova turnê em breve!"
 }
+
+### Get all posts
+GET http://localhost:3003/posts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ0YzkyYWZiLWQzMWItNDQ0OC1iOTk0LTljYzMxNWUyOGUyMiIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjAxNjMzODAsImV4cCI6MTY2MDI0OTc4MH0.dsAffsZoE7Xa24MuyiWDPx2niBKWdHHjR54n8pcFZ2U
+
+### Delete post
+DELETE http://localhost:3003/posts/af619f96-c19b-466a-b427-1ddd6eb94d9f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ0YzkyYWZiLWQzMWItNDQ0OC1iOTk0LTljYzMxNWUyOGUyMiIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjAxNjMzODAsImV4cCI6MTY2MDI0OTc4MH0.dsAffsZoE7Xa24MuyiWDPx2niBKWdHHjR54n8pcFZ2U
+
+### Like post
+POST http://localhost:3003/posts/101
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUwNWFjYmYyLWVlZDQtNDVhMS05NmJmLWYxMmUxY2Q1ODNkMyIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjAyNDAzMjgsImV4cCI6MTY2MDMyNjcyOH0.ORFA5zXHbhDI2TttXsPe1EugFcZG2E6OssJJKKhw3-4
+
