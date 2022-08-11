@@ -7,17 +7,9 @@ export const users: IUserDB[] = [
         id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
         name: "Lau",
         email: "lau@gmail.com",
-        password: "mb1306182",
+        password: "$2a$12$sXDASTjOnod8rIa5iP1ld.Q8s9ZXR8oDAvlmZr.i7Dz7thWGRRfqy",
         role: USER_ROLES.ADMIN
-    },
-    {
-        id: "f9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
-        name: "Thali",
-        email: "thali@gmail.com",
-        password: "blabla123",
-        role: USER_ROLES.NORMAL
     }
-
 ]
 
 export const posts: IPostDB[] = [
