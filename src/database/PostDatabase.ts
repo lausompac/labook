@@ -6,17 +6,16 @@ export class PostDatabase extends BaseDatabase {
     public static TABLE_POST = "Labook_Posts";
     public static TABLE_LIKE = "Labook_Likes";
 
-    public findPostById = async (postId: string) => {
+    findPostById = async (postId: string) => {
         const result = await BaseDatabase
             .connection(PostDatabase.TABLE_POST)
             .select("*")
             .where({ id: postId });
 
         return result[0];
-
     }
 
-    public findLikeById = async (post_id: string, user_id: string) => {
+    findLikeById = async (post_id: string, user_id: string) => {
         const result = await BaseDatabase
             .connection(PostDatabase.TABLE_LIKE)
             .select("*")
@@ -25,8 +24,7 @@ export class PostDatabase extends BaseDatabase {
         return result[0];
     }
 
-
-    public createPost = async (post: Post) => {
+    createPost = async (post: Post) => {
         const postDB: IPostDB = {
             id: post.getId(),
             text: post.getText(),
@@ -39,7 +37,7 @@ export class PostDatabase extends BaseDatabase {
             .insert(postDB);
     }
 
-    public getAllPosts = async (input: IGetPostsDBDTO) => {
+    getAllPosts = async (input: IGetPostsDBDTO) => {
         const { search, order, sort, limit, offset } = input;
 
         if (search) {
@@ -64,18 +62,17 @@ export class PostDatabase extends BaseDatabase {
                 .offset(offset);
 
             return postsDB;
-
         }
     }
 
-    public deletePost = async (postId: string) => {
+    deletePost = async (postId: string) => {
         await BaseDatabase
             .connection(PostDatabase.TABLE_POST)
             .where("id", "=", `${postId}`)
             .delete();
     }
 
-    public likePost = async (like: ILikePostDBDTO) => {
+    likePost = async (like: ILikePostDBDTO) => {
         const likeDB: ILikePostDBDTO = {
             post_id: like.post_id,
             user_id: like.user_id
@@ -91,4 +88,22 @@ export class PostDatabase extends BaseDatabase {
             .increment("likes", 1);
 
     }
-}
+
+    dislikePost = async (dislike: ILikePostDBDTO) => {
+        const dislikeDB: ILikePostDBDTO = {
+            post_id: dislike.post_id,
+            user_id: dislike.user_id
+        }
+
+        await BaseDatabase
+            .connection(PostDatabase.TABLE_LIKE)
+            .where({ post_id: dislike.post_id, user_id: dislike.user_id })
+            .delete();
+
+        await BaseDatabase
+            .connection(PostDatabase.TABLE_POST)
+            .where("id", "=", `${dislike.post_id}`)
+            .decrement("likes", 1);
+    }
+
+    }

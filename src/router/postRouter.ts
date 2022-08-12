@@ -12,6 +12,7 @@ const postController = new PostController(
     new PostBusiness(
         new PostDatabase(),
         new IdGenerator(),
+        new Authenticator(), 
     )
 );
 
@@ -19,3 +20,4 @@ postRouter.post("/", postController.createPost);
 postRouter.get("/", postController.getAllPosts);
 postRouter.delete("/:id", postController.deletePost);
 postRouter.post("/:id", postController.likePost);
+postRouter.delete("/:id/likes", postController.dislikePost); //mostrar pro yuzo
