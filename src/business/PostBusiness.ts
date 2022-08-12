@@ -179,4 +179,48 @@ export class PostBusiness {
 
         return response;
     }
+
+    public dislikePost = async (input: ILikePostInputDTO) => {
+        const {token, postId} = input;
+
+        if (!token) {
+            throw new Error("Missing Token");
+        }
+
+        if (!postId) {
+            throw new Error("Missing postId");
+        }
+
+        const payload = this.authenticator.getTokenPayload(token);
+
+        if (!payload) {
+            throw new Error("Invalid Token");
+        }
+
+        const postDB = await this.postDatabase.findPostById(postId);
+
+        if (!postDB) {
+            throw new Error("Post not found");
+        }
+
+        const userId = payload.id;
+        const likeDB = await this.postDatabase.findLikeById(postId, userId);
+
+        if (!likeDB) {
+            throw new Error("You haven't liked this post");
+        }
+
+        const dislike: ILikePostDBDTO = {
+            post_id: postId,
+            user_id: userId
+        }
+
+        await this.postDatabase.dislikePost(dislike);
+
+        const response = {
+            message: "Post disliked successfully"
+        }
+
+        return response;
+    }
 }

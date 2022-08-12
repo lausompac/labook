@@ -72,4 +72,19 @@ export class PostController {
             res.status(400).send({ message: error.message });
         }
     }
+
+    public dislikePost = async (req: Request, res: Response) => {
+        try {
+            const input: ILikePostInputDTO = {
+                token: req.headers.authorization,
+                postId: req.params.id
+            }
+            
+            const response = await this.postBusiness.dislikePost(input);
+
+            res.status(200).send(response);
+        } catch (error) {
+            res.status(400).send({ message: error.message });
+        }
+    }
 }
