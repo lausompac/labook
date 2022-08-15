@@ -6,7 +6,7 @@ export class PostDatabase extends BaseDatabase {
     public static TABLE_POST = "Labook_Posts";
     public static TABLE_LIKE = "Labook_Likes";
 
-    findPostById = async (postId: string) => {
+    findPostById = async (postId: string): Promise<IPostDB | undefined> => {
         const result = await BaseDatabase
             .connection(PostDatabase.TABLE_POST)
             .select("*")
@@ -15,7 +15,7 @@ export class PostDatabase extends BaseDatabase {
         return result[0];
     }
 
-    findLikeById = async (post_id: string, user_id: string) => {
+    findLikeById = async (post_id: string, user_id: string): Promise<ILikePostDBDTO | undefined> => {
         const result = await BaseDatabase
             .connection(PostDatabase.TABLE_LIKE)
             .select("*")

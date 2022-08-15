@@ -5,7 +5,7 @@ import { BaseDatabase } from "./BaseDatabase";
 export class UserDatabase extends BaseDatabase {
     public static TABLE_USERS = "Labook_Users";
 
-    findByEmail = async (email: string) => {
+    findByEmail = async (email: string): Promise<IUserDB | undefined> => {
         const usersDB: IUserDB[] = await BaseDatabase
             .connection(UserDatabase.TABLE_USERS)
             .select()
