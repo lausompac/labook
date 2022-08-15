@@ -1,5 +1,5 @@
 import { PostBusiness } from "../../src/business/PostBusiness";
-import { IGetPostsInputDTO, IPostInputDTO } from "../../src/models/Post";
+import { IDeletePostInputDTO } from "../../src/models/Post";
 import { PostDatabaseMock } from "../mocks/PostDatabaseMock";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
 import { IdGeneratorMock } from "../mocks/services/IdGeneratorMock";
@@ -11,19 +11,15 @@ describe("PostBusiness test", () => {
         new AuthenticatorMock(),
     )
 
-    test("succeded getAllPosts", async () => {
-        const input: IGetPostsInputDTO = {
+    test("succeded deletePost", async () => {
+        const input: IDeletePostInputDTO = {
             token: "token-lau",
-            search: "",
-            order: "ASC",
-            sort: "likes",
-            limit: "10",
-            page: "1"
+            postId: "101"
         }
 
-        const response = await postBusiness.getAllPosts(input);
+        const response = await postBusiness.deletePost(input);
 
-        expect(response.posts.length).toEqual(3);
-       
+        expect(response.message).toEqual("Post deleted successfully");
+
     })
 })
