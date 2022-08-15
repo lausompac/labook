@@ -23,7 +23,9 @@ O sistema conta com recursos que envolvem o gerenciamento rede social, com as se
 - Express;
 - Cors;
 - Knex; 
-- SQL
+- SQL;
+- UUID;
+- JWT;
 
 ## 🚀 Aplicações utilizadas
 
