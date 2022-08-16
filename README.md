@@ -26,6 +26,7 @@ O sistema conta com recursos que envolvem o gerenciamento rede social, com as se
 - SQL;
 - UUID;
 - JWT;
+- Jest;
 
 ## 🚀 Aplicações utilizadas
 
