@@ -20,9 +20,6 @@ export class UserBusiness {
         const email = input.email;
         const password = input.password;
 
-        if (!name || !email || !password) {
-            throw new RequestError("Missing input");
-        }
 
         if (typeof name !== "string" || name.length < 3) {
             throw new RequestError("Invalid name");
@@ -78,9 +75,6 @@ export class UserBusiness {
         const email = input.email
         const password = input.password
 
-        if (!email || !password) {
-            throw new RequestError("Missing input");
-        }
 
         if (typeof email !== "string" || email.length < 3) {
             throw new RequestError("Invalid email");

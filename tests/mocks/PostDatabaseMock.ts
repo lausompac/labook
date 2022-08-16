@@ -44,7 +44,7 @@ export class PostDatabaseMock extends BaseDatabase {
             case "103": 
                 return {    
                     post_id: "103",
-                    user_id: "id-mock",
+                    user_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
                 } as ILikePostDBDTO
 
             default:
@@ -72,7 +72,7 @@ export class PostDatabaseMock extends BaseDatabase {
                 id: "103",
                 text: "dá um like aqui",
                 creator_id: "id-mock",
-                likes: 0
+                likes: 1
             }
 
         ]

@@ -22,4 +22,20 @@ describe("PostBusiness test", () => {
         expect(response.message).toEqual("Post disliked successfully");
 
     })
+
+    test("failed dislikePost - haven't liked this post", async () => {
+        expect.assertions(2)
+        try {
+            const input: ILikePostInputDTO = {
+                token: "token-mock",
+                postId: "101"
+            }
+
+            await postBusiness.dislikePost(input);
+        } catch (error) {
+            expect(error.message).toEqual("You haven't liked this post");
+            expect(error.statusCode).toEqual(409);
+
+        }
+    })
 })

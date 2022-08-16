@@ -22,4 +22,20 @@ describe("PostBusiness test", () => {
         expect(response.message).toEqual("Post liked successfully");
 
     })
+
+    test("failed likePost - already liked this post", async () => {
+        expect.assertions(2)
+        try {
+            const input: ILikePostInputDTO = {
+                token: "token-lau",
+                postId: "103"
+            }
+
+            await postBusiness.likePost(input);
+        } catch (error) {
+            expect(error.message).toEqual("You already liked this post");
+            expect(error.statusCode).toEqual(409);
+
+        }
+    })
 })

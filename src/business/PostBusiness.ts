@@ -32,7 +32,7 @@ export class PostBusiness {
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new RequestError("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const userId = payload.id;
@@ -65,13 +65,13 @@ export class PostBusiness {
 
 
         if (!token) {
-            throw new RequestError("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new RequestError("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const getpostsInputDB: IGetPostsDBDTO = {
@@ -104,7 +104,7 @@ export class PostBusiness {
         const { token, postId } = input;
 
         if (!token) {
-            throw new RequestError("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
@@ -114,7 +114,7 @@ export class PostBusiness {
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new RequestError("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
@@ -144,7 +144,7 @@ export class PostBusiness {
         const { token, postId } = input;
 
         if (!token) {
-            throw new RequestError("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
@@ -154,7 +154,7 @@ export class PostBusiness {
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new RequestError("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
@@ -188,7 +188,7 @@ export class PostBusiness {
         const {token, postId} = input;
 
         if (!token) {
-            throw new RequestError("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
@@ -198,7 +198,7 @@ export class PostBusiness {
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new RequestError("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
