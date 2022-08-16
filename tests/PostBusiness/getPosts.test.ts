@@ -1,4 +1,5 @@
 import { PostBusiness } from "../../src/business/PostBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { IGetPostsInputDTO, IPostInputDTO } from "../../src/models/Post";
 import { PostDatabaseMock } from "../mocks/PostDatabaseMock";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
@@ -24,7 +25,7 @@ describe("PostBusiness test", () => {
         const response = await postBusiness.getAllPosts(input);
 
         expect(response.posts.length).toEqual(3);
-       
+
     })
 
     test("failed getAllPosts - invalid token", async () => {
@@ -40,9 +41,11 @@ describe("PostBusiness test", () => {
             }
 
             await postBusiness.getAllPosts(input);
-        } catch (error) {
-            expect(error.message).toEqual("Invalid token");
-            expect(error.statusCode).toEqual(400);
+        } catch (error: unknown) {
+            if (error instanceof BaseError) {
+                expect(error.message).toEqual("Invalid token");
+                expect(error.statusCode).toEqual(400);
+            }
         }
     })
 

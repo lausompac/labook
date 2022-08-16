@@ -1,4 +1,5 @@
 import { UserBusiness } from "../../src/business/UserBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { ISignupInputDTO } from "../../src/models/User";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock"
 import { HashManagerMock } from "../mocks/services/HashManagerMock"
@@ -27,7 +28,7 @@ describe("UserBusiness test", () => {
     })
 
     test("failed signup - name is empty", async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
         try {
             const input: ISignupInputDTO = {
@@ -38,9 +39,9 @@ describe("UserBusiness test", () => {
 
             await userBusiness.signup(input);
         } catch (error: unknown) {
-            if (error instanceof Error) {
+            if (error instanceof BaseError) {
                 expect(error.message).toEqual("Invalid name");
-                // expect(error.statusCode).toEqual(422);
+                expect(error.statusCode).toEqual(400);
             }
         }
     })

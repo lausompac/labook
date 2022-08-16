@@ -1,4 +1,5 @@
 import { PostBusiness } from "../../src/business/PostBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { IDeletePostInputDTO, ILikePostInputDTO } from "../../src/models/Post";
 import { PostDatabaseMock } from "../mocks/PostDatabaseMock";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
@@ -32,10 +33,11 @@ describe("PostBusiness test", () => {
             }
 
             await postBusiness.likePost(input);
-        } catch (error) {
-            expect(error.message).toEqual("You already liked this post");
-            expect(error.statusCode).toEqual(409);
-
+        } catch (error: unknown) {
+            if (error instanceof BaseError) {
+                expect(error.message).toEqual("You already liked this post");
+                expect(error.statusCode).toEqual(409);
+            }
         }
     })
 })
