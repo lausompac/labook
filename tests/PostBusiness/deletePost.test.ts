@@ -1,4 +1,5 @@
 import { PostBusiness } from "../../src/business/PostBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { IDeletePostInputDTO } from "../../src/models/Post";
 import { PostDatabaseMock } from "../mocks/PostDatabaseMock";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
@@ -64,10 +65,11 @@ describe("PostBusiness test", () => {
             }
 
             await postBusiness.deletePost(input);
-        } catch (error) {
+        } catch (error: unknown) {
+            if (error instanceof BaseError) {
             expect(error.message).toEqual("You don't have permission to do this");
             expect(error.statusCode).toEqual(403);
-
+            }
         }
     })
 })

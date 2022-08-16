@@ -1,4 +1,5 @@
 import { PostBusiness } from "../../src/business/PostBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { IPostInputDTO } from "../../src/models/Post";
 import { PostDatabaseMock } from "../mocks/PostDatabaseMock";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
@@ -34,10 +35,11 @@ describe("PostBusiness test", () => {
             }
 
             await postBusiness.createPost(input);
-        } catch (error) {
-            expect(error.message).toEqual("Missing text");
-            expect(error.statusCode).toEqual(400);
-            
+        } catch (error: unknown) {
+            if (error instanceof BaseError) {
+                expect(error.message).toEqual("Missing text");
+                expect(error.statusCode).toEqual(400);
+            }
         }
     })
 
@@ -51,9 +53,10 @@ describe("PostBusiness test", () => {
 
             await postBusiness.createPost(input);
         } catch (error) {
-            expect(error.message).toEqual("Invalid token");
-            expect(error.statusCode).toEqual(400);
-            
+            if (error instanceof BaseError) {
+                expect(error.message).toEqual("Invalid token");
+                expect(error.statusCode).toEqual(400);
+            }
         }
     })
 

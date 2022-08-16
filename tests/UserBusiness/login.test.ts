@@ -1,4 +1,5 @@
 import { UserBusiness } from "../../src/business/UserBusiness";
+import { BaseError } from "../../src/errors/BaseError";
 import { ILoginInputDTO } from "../../src/models/User";
 import { AuthenticatorMock } from "../mocks/services/AuthenticatorMock";
 import { HashManagerMock } from "../mocks/services/HashManagerMock";
@@ -26,7 +27,7 @@ describe("UserBusiness test", () => {
     })
 
     test("failed login - email is empty", async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
         try {
             const input: ILoginInputDTO = {
@@ -36,15 +37,15 @@ describe("UserBusiness test", () => {
 
             await userBusiness.login(input);
         } catch (error: unknown) {
-            if (error instanceof Error) {
+            if (error instanceof BaseError) {
                 expect(error.message).toEqual("Invalid email");
-                // expect(error.statusCode).toEqual(422);
+                expect(error.statusCode).toEqual(400);
             }
         }
     }),
 
         test("failed login - password is empty", async () => {
-            expect.assertions(1);
+            expect.assertions(2);
 
             try {
                 const input: ILoginInputDTO = {
@@ -54,15 +55,15 @@ describe("UserBusiness test", () => {
 
                 await userBusiness.login(input);
             } catch (error: unknown) {
-                if (error instanceof Error) {
+                if (error instanceof BaseError) {
                     expect(error.message).toEqual("Invalid password");
-                    // expect(error.statusCode).toEqual(422);
+                    expect(error.statusCode).toEqual(400);
                 }
             }
         }),
 
         test("failed login - user not found", async () => {
-            expect.assertions(1);
+            expect.assertions(2);
 
             try {
                 const input: ILoginInputDTO = {
@@ -72,15 +73,15 @@ describe("UserBusiness test", () => {
 
                 await userBusiness.login(input);
             } catch (error: unknown) {
-                if (error instanceof Error) {
+                if (error instanceof BaseError) {
                     expect(error.message).toEqual("User not found");
-                    // expect(error.statusCode).toEqual(404);
+                    expect(error.statusCode).toEqual(404);
                 }
             }
         })
 
     test("failed login - wrong password", async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
         try {
             const input: ILoginInputDTO = {
@@ -90,9 +91,9 @@ describe("UserBusiness test", () => {
 
             await userBusiness.login(input);
         } catch (error: unknown) {
-            if (error instanceof Error) {
+            if (error instanceof BaseError) {
                 expect(error.message).toEqual("Invalid password");
-                // expect(error.statusCode).toEqual(422);
+                expect(error.statusCode).toEqual(400);
             }
         }
     })
