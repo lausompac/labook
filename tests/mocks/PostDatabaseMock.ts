@@ -17,6 +17,22 @@ export class PostDatabaseMock extends BaseDatabase {
                     likes: 0
                 } as IPostDB
 
+            case "102":
+                return {
+                    id: "102",
+                    text: "Hello World",
+                    creator_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
+                    likes: 1
+                }
+
+            case "103":
+                return {
+                    id: "103",
+                    text: "dá um like aqui",
+                    creator_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
+                    likes: 1
+                }
+
             default:
                 return undefined;
         }
@@ -24,20 +40,19 @@ export class PostDatabaseMock extends BaseDatabase {
 
     findLikeById = async (post_id: string, user_id: string) => {
         switch (post_id) {
-            case "101":
-                return {
-                    post_id: "101",
-                    user_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
 
+            case "103": 
+                return {    
+                    post_id: "103",
+                    user_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
                 } as ILikePostDBDTO
+
             default:
                 return undefined;
         }
     }
 
-    createPost = async (post: Post) => {
-
-    }
+    createPost = async (post: Post) => {}
 
     getAllPosts = async (input: IGetPostsDBDTO) => {
         const posts: IPostDB[] = [
@@ -52,24 +67,24 @@ export class PostDatabaseMock extends BaseDatabase {
                 text: "Hello World",
                 creator_id: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
                 likes: 0
+            },
+            {
+                id: "103",
+                text: "dá um like aqui",
+                creator_id: "id-mock",
+                likes: 1
             }
+
         ]
 
         return posts;
 
     }
 
-    deletePost = async (postId: string) => {
+    deletePost = async (postId: string) => {}
 
-    }
+    likePost = async (like: ILikePostDBDTO) => {}
 
-    likePost = async (like: ILikePostDBDTO) => {
-
-
-    }
-
-    dislikePost = async (dislike: ILikePostDBDTO) => {
-
-    }
+    dislikePost = async (dislike: ILikePostDBDTO) => {}
 
 }

@@ -24,4 +24,76 @@ describe("UserBusiness test", () => {
         expect(response.message).toEqual("User logged in successfully");
         expect(response.token).toEqual("token-lau");
     })
+
+    test("failed login - email is empty", async () => {
+        expect.assertions(1);
+
+        try {
+            const input: ILoginInputDTO = {
+                email: "",
+                password: "selfmade"
+            }
+
+            await userBusiness.login(input);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                expect(error.message).toEqual("Invalid email");
+                // expect(error.statusCode).toEqual(422);
+            }
+        }
+    }),
+
+        test("failed login - password is empty", async () => {
+            expect.assertions(1);
+
+            try {
+                const input: ILoginInputDTO = {
+                    email: "lau@gmail.com",
+                    password: ""
+                }
+
+                await userBusiness.login(input);
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    expect(error.message).toEqual("Invalid password");
+                    // expect(error.statusCode).toEqual(422);
+                }
+            }
+        }),
+
+        test("failed login - user not found", async () => {
+            expect.assertions(1);
+
+            try {
+                const input: ILoginInputDTO = {
+                    email: "travis@blink.com",
+                    password: "selfmade"
+                }
+
+                await userBusiness.login(input);
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    expect(error.message).toEqual("User not found");
+                    // expect(error.statusCode).toEqual(404);
+                }
+            }
+        })
+
+    test("failed login - wrong password", async () => {
+        expect.assertions(1);
+
+        try {
+            const input: ILoginInputDTO = {
+                email: "lau@gmail.com",
+                password: "wrongpassword"
+            }
+
+            await userBusiness.login(input);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                expect(error.message).toEqual("Invalid password");
+                // expect(error.statusCode).toEqual(422);
+            }
+        }
+    })
 })

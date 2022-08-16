@@ -24,4 +24,37 @@ describe("PostBusiness test", () => {
         expect(response.post.getText()).toEqual("e ae galera");
         expect(response.post.getCreatorId()).toEqual("bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b");
     })
+
+    test("failed create post - invalid text", async () => {
+        expect.assertions(2)
+        try {
+            const input: IPostInputDTO = {
+                token: "token-lau",
+                text: ""
+            }
+
+            await postBusiness.createPost(input);
+        } catch (error) {
+            expect(error.message).toEqual("Missing text");
+            expect(error.statusCode).toEqual(400);
+            
+        }
+    })
+
+    test("failed create post - invalid token", async () => {
+        expect.assertions(2)
+        try {
+            const input: IPostInputDTO = {
+                token: "token-invalid",
+                text: "e ae galera"
+            }
+
+            await postBusiness.createPost(input);
+        } catch (error) {
+            expect(error.message).toEqual("Invalid token");
+            expect(error.statusCode).toEqual(400);
+            
+        }
+    })
+
 })

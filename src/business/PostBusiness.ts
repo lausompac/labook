@@ -1,4 +1,8 @@
 import { PostDatabase } from "../database/PostDatabase";
+import { ConflictError } from "../errors/ConflictError";
+import { NotFoundError } from "../errors/NotFoundError";
+import { PermissionDeniedError } from "../errors/PermissionDenied";
+import { RequestError } from "../errors/RequestError";
 import { IDeletePostInputDTO, IGetPostsDBDTO, IGetPostsInputDTO, ILikePostDBDTO, ILikePostInputDTO, IPostInputDTO, Post } from "../models/Post";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -14,21 +18,21 @@ export class PostBusiness {
         const { token, text } = input;
 
         if (!token) {
-            throw new Error("Missing Token");
+            throw new RequestError("Missing Token");
         }
 
         if (!text) {
-            throw new Error("Missing text");
+            throw new RequestError("Missing text");
         }
 
         if (typeof text !== "string" || text.length < 1) {
-            throw new Error("Invalid text");
+            throw new RequestError("Invalid text");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new Error("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const userId = payload.id;
@@ -61,13 +65,13 @@ export class PostBusiness {
 
 
         if (!token) {
-            throw new Error("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new Error("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const getpostsInputDB: IGetPostsDBDTO = {
@@ -100,30 +104,30 @@ export class PostBusiness {
         const { token, postId } = input;
 
         if (!token) {
-            throw new Error("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
-            throw new Error("Missing postId");
+            throw new RequestError("Missing postId");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new Error("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
 
         if (!postDB) {
-            throw new Error("Post not found");
+            throw new NotFoundError("Post not found");
         }
 
         const isUserCreator = postDB.creator_id === payload.id;
         const isUserAdmin = payload.role === "ADMIN";
 
         if (!isUserCreator && !isUserAdmin) {
-            throw new Error("You don't have permission to do this");
+            throw new PermissionDeniedError("You don't have permission to do this");
         }
 
         await this.postDatabase.deletePost(postId);
@@ -140,30 +144,30 @@ export class PostBusiness {
         const { token, postId } = input;
 
         if (!token) {
-            throw new Error("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
-            throw new Error("Missing postId");
+            throw new RequestError("Missing postId");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new Error("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
 
         if (!postDB) {
-            throw new Error("Post not found");
+            throw new NotFoundError("Post not found");
         }
 
         const userId = payload.id;
         const likeDB = await this.postDatabase.findLikeById(postId, userId);
 
         if (likeDB) {
-            throw new Error("You already liked this post");
+            throw new ConflictError("You already liked this post");
         }
 
         const like: ILikePostDBDTO = {
@@ -184,30 +188,30 @@ export class PostBusiness {
         const {token, postId} = input;
 
         if (!token) {
-            throw new Error("Missing Token");
+            throw new RequestError("Missing token");
         }
 
         if (!postId) {
-            throw new Error("Missing postId");
+            throw new RequestError("Missing postId");
         }
 
         const payload = this.authenticator.getTokenPayload(token);
 
         if (!payload) {
-            throw new Error("Invalid Token");
+            throw new RequestError("Invalid token");
         }
 
         const postDB = await this.postDatabase.findPostById(postId);
 
         if (!postDB) {
-            throw new Error("Post not found");
+            throw new NotFoundError("Post not found");
         }
 
         const userId = payload.id;
         const likeDB = await this.postDatabase.findLikeById(postId, userId);
 
         if (!likeDB) {
-            throw new Error("You haven't liked this post");
+            throw new ConflictError("You haven't liked this post");
         }
 
         const dislike: ILikePostDBDTO = {

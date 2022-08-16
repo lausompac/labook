@@ -23,7 +23,27 @@ describe("PostBusiness test", () => {
 
         const response = await postBusiness.getAllPosts(input);
 
-        expect(response.posts.length).toEqual(2);
+        expect(response.posts.length).toEqual(3);
        
     })
+
+    test("failed getAllPosts - invalid token", async () => {
+        expect.assertions(2)
+        try {
+            const input: IGetPostsInputDTO = {
+                token: "token-invalid",
+                search: "",
+                order: "ASC",
+                sort: "likes",
+                limit: "10",
+                page: "1"
+            }
+
+            await postBusiness.getAllPosts(input);
+        } catch (error) {
+            expect(error.message).toEqual("Invalid token");
+            expect(error.statusCode).toEqual(400);
+        }
+    })
+
 })

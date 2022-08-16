@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
+import { BaseError } from "../errors/BaseError";
 import { ILoginInputDTO, ISignupInputDTO } from "../models/User";
 
 export class UserController {
@@ -18,8 +19,11 @@ export class UserController {
             const response = await this.userBusiness.signup(input);
 
             res.status(200).send(response);            
-        } catch (error) {
-            res.status(400).send({ error: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while signing up" }); 
         }
     }
 
@@ -34,8 +38,11 @@ export class UserController {
 
             res.status(200).send(response);
             
-        } catch (error) {
-            res.status(400).send({ error: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while logging in" }); 
         }
     }
 }
