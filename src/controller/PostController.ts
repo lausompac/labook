@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostBusiness } from "../business/PostBusiness";
+import { BaseError } from "../errors/BaseError";
 import { IDeletePostInputDTO, IGetPostsInputDTO, ILikePostInputDTO, IPostInputDTO } from "../models/Post";
 
 export class PostController {
@@ -17,8 +18,11 @@ export class PostController {
             const response = await this.postBusiness.createPost(input);
 
             res.status(200).send(response);
-        } catch (error) {
-            res.status(400).send({ error: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while creating post" }); 
         }
     }
 
@@ -36,8 +40,11 @@ export class PostController {
             const response = await this.postBusiness.getAllPosts(input);
 
             res.status(200).send(response);
-        } catch (error) {
-            res.status(400).send({ message: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while getting posts" }); 
         }
     }
 
@@ -52,9 +59,11 @@ export class PostController {
 
             res.status(200).send({ message: "Post deleted successfully" });
             
-        } catch (error) {
-            res.status(400).send({ message: error.message });
-            
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while deleting post" }); 
         }
     }
 
@@ -68,8 +77,11 @@ export class PostController {
             const response = await this.postBusiness.likePost(input);
 
             res.status(200).send(response);
-        } catch (error) {
-            res.status(400).send({ message: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while liking post" }); 
         }
     }
 
@@ -83,8 +95,11 @@ export class PostController {
             const response = await this.postBusiness.dislikePost(input);
 
             res.status(200).send(response);
-        } catch (error) {
-            res.status(400).send({ message: error.message });
+        } catch (error: unknown) {
+            if (error instanceof BaseError){
+                return res.status(error.statusCode).send({ message: error.message });
+            }
+            res.status(500).send({ message: "Unexpected error occurred while disliking post" }); 
         }
     }
 }

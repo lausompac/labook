@@ -1,4 +1,7 @@
 import { UserDatabase } from "../database/UserDatabase";
+import { ConflictError } from "../errors/ConflictError";
+import { NotFoundError } from "../errors/NotFoundError";
+import { RequestError } from "../errors/RequestError";
 import { ILoginInputDTO, ISignupInputDTO, User, USER_ROLES } from "../models/User";
 import { Authenticator, ITokenPayload } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
@@ -18,29 +21,29 @@ export class UserBusiness {
         const password = input.password;
 
         if (!name || !email || !password) {
-            throw new Error("Missing input");
+            throw new RequestError("Missing input");
         }
 
         if (typeof name !== "string" || name.length < 3) {
-            throw new Error("Invalid name");
+            throw new RequestError("Invalid name");
         }
 
         if (typeof email !== "string" || email.length < 3) {
-            throw new Error("Invalid email");
+            throw new RequestError("Invalid email");
         }
 
         if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            throw new Error("Invalid email");
+            throw new RequestError("Invalid email");
         }
 
         if (typeof password !== "string" || password.length < 6) {
-            throw new Error("Invalid password");
+            throw new RequestError("Invalid password");
         }
 
         const userDB = await this.userDatabase.findByEmail(email);
 
         if (userDB) {
-            throw new Error("User already exists");
+            throw new ConflictError("User already exists");
         }
 
         const id = this.idGenerator.generate();
@@ -76,25 +79,25 @@ export class UserBusiness {
         const password = input.password
 
         if (!email || !password) {
-            throw new Error("Missing input");
+            throw new RequestError("Missing input");
         }
 
         if (typeof email !== "string" || email.length < 3) {
-            throw new Error("Invalid email");
+            throw new RequestError("Invalid email");
         }
 
         if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            throw new Error("Invalid email");
+            throw new RequestError("Invalid email");
         }
 
         if (typeof password !== "string" || password.length < 6) {
-            throw new Error("Invalid password");
+            throw new RequestError("Invalid password");
         }
 
         const userDB = await this.userDatabase.findByEmail(email);
 
         if (!userDB) {
-            throw new Error("User not found");
+            throw new NotFoundError("User not found");
         }
 
         const user = new User(
@@ -108,7 +111,7 @@ export class UserBusiness {
         const isPasswordCorrect = await this.hashManager.compare(password, user.getPassword());
 
         if (!isPasswordCorrect) {
-            throw new Error("Invalid password");
+            throw new RequestError("Invalid password");
         }
 
         const payload: ITokenPayload = {
